@@ -91,15 +91,25 @@ def main():
     if champion_list_response.status_code == 200:
         champion_list_json = champion_list_response.json()
 
-        # key property is not used atm, not sure what exactly it is for
         champions_dict = {
-            info["name"]: {"id": info["id"], "name": info["name"], "key": info["key"]}
+            info["id"]: {
+                "id": info["id"],
+                "name": info["name"],
+                "lolalytics_id": info["id"].lower(),
+            }
             for champion, info in champion_list_json["data"].items()
         }
+        pprint.pprint(champions_dict)
+        # replace data where api id does not match lolalytics id
+        # print(const.ID_EXCEPTIONS).items()
+
+        for key, value in const.ID_EXCEPTIONS.items():
+            if key in champions_dict:
+                champions_dict[key].update("lolalytics_id", value)
 
         pprint.pp(champions_dict)
 
-        download_portraits(props.champion_portrait_url, champions_dict)
+        # download_portraits(props.champion_portrait_url, champions_dict)
 
     else:
         print(f"Request failed, status code: {champion_list_response.status_code}")
