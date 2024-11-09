@@ -100,9 +100,8 @@ def main():
             for champion, info in champion_list_json["data"].items()
         }
         pprint.pprint(champions_dict)
+        
         # replace data where api id does not match lolalytics id
-        # print(const.ID_EXCEPTIONS).items()
-
         for key, value in const.ID_EXCEPTIONS.items():
             if key in champions_dict:
                 champions_dict[key].update("lolalytics_id", value)
@@ -117,3 +116,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    

@@ -7,6 +7,6 @@
     "Version":"0.1",
     "Language":"python",
     "Website":"https://github.com/kchalczynski/flow-launcher-lol-builds",
-    "IcoPath": "assets/lol-logo.png",
+    "IcoPath": "assets\\lol-logo.png",
     "ExecuteFileName":"main.py"
-  }
+  } 
