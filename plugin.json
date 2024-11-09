@@ -1,0 +1,12 @@
+{
+    "ID":"d2e0e239-0c59-47b8-b850-5ac1248324e5",
+    "ActionKeyword":"lol",
+    "Name":"Lolalytics builds",
+    "Description":"Search for LoL champion builds on Lolalytic",
+    "Author":"kchalczynski",
+    "Version":"0.1",
+    "Language":"python",
+    "Website":"https://github.com/kchalczynski/flow-launcher-lol-builds",
+    "IcoPath": "assets/lol-logo.png",
+    "ExecuteFileName":"main.py"
+  }
