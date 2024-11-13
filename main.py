@@ -1,8 +1,18 @@
 import requests
+import logging
 import pprint
 import os
 import constants as const
 import properties as props
+
+
+# configure logging
+
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+
+log = logging.getLogger(__name__)
 
 
 def get_current_data_version(url, last_data_version):
@@ -10,13 +20,13 @@ def get_current_data_version(url, last_data_version):
     response = requests.get(url)
 
     if response.status_code == 200:
-        print(
+        log.info(
             f"Latest data version on ddragon: {response.json()[0]}"
             f"\nLocal data version: {last_data_version}"
         )
 
     else:
-        print(
+        log.info(
             f"Failed to get data version; Status code: {response.status_code}"
             f"\nLocal data version: {last_data_version}"
         )
@@ -48,10 +58,10 @@ def download_portrait(url, target_dir, filename):
             with open(file_path, "xb") as file:
                 file.write(response.content)
 
-            print(f"Champion portrait for {filename} saved at {file_path}")
+            log.info(f"Champion portrait for {filename} saved at {file_path}")
 
         else:
-            print(f"Failed to download image; Status code: {response.status_code}")
+            log.info(f"Failed to download image; Status code: {response.status_code}")
 
 
 def download_portraits(url, champions_dict):
@@ -84,7 +94,7 @@ def main():
     current_champion_list_url = props.champions_list_url.format(
         version=props.current_data_version
     )
-    print(current_champion_list_url)
+    log.debug(current_champion_list_url)
 
     champion_list_response = requests.get(current_champion_list_url)
 
@@ -99,21 +109,20 @@ def main():
             }
             for champion, info in champion_list_json["data"].items()
         }
-        pprint.pprint(champions_dict)
-        
+        log.debug(champions_dict)
+
         # replace data where api id does not match lolalytics id
         for key, value in const.ID_EXCEPTIONS.items():
             if key in champions_dict:
                 champions_dict[key].update("lolalytics_id", value)
 
-        pprint.pp(champions_dict)
+        log.debug(champions_dict)
 
         # download_portraits(props.champion_portrait_url, champions_dict)
 
     else:
-        print(f"Request failed, status code: {champion_list_response.status_code}")
+        log.info(f"Request failed, status code: {champion_list_response.status_code}")
 
 
 if __name__ == "__main__":
     main()
-    
